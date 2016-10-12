@@ -1,7 +1,8 @@
-package tda22016.tp1;
+package main;
 
 import estadisticos.CalculadorInferencia;
 import estadisticos.Heap;
+
 import java.util.Vector;
 
 public class Tda22016Tp1 {
@@ -34,7 +35,7 @@ public class Tda22016Tp1 {
         obtenerDatos("path");
         CalculadorInferencia calculadorInferencia = new CalculadorInferencia(conjuntoDatos);
 
-        //System.out.println(calculadorInferencia.calcularPorFuerzaBruta(1,8));
+        System.out.println(calculadorInferencia.calcularPorFuerzaBruta(3,3));
         //System.out.println(calculadorInferencia.calcularPorOrdenarSeleccionar(1,8));
         //System.out.println(calculadorInferencia.calcularPorKSelecciones(1,3));
         //System.out.println(calculadorInferencia.calcularPorKSeleccionesEnHeap(1,8));

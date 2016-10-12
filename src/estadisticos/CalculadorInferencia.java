@@ -1,3 +1,5 @@
+package estadisticos;
+
 import java.util.Vector;
 
 public class CalculadorInferencia {
@@ -44,11 +46,12 @@ public class CalculadorInferencia {
 
 
 	public boolean calcularPorFuerzaBruta(Integer pos, Integer valor){
-		ordenarPorSeleccion();
-		
+
+		FuerzaBruta fuerzaBruta = new FuerzaBruta(contenedorDatos,valor);
+
 		System.out.println(contenedorDatos);
 
-		return verificarPos(pos-1,valor);
+		return fuerzaBruta.verificar(pos) != null;
 	}
 	
 	private boolean verificarPos(Integer pos, Integer valor){

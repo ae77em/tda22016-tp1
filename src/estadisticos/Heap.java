@@ -1,10 +1,11 @@
+package estadisticos;
 
-import java.util.*;
-import java.security.*;public class Heap
-{
+import java.util.Vector;
+
+public class Heap {
 	Vector<Integer> heap;
 	
-	Heap(){
+	public Heap(){
 		heap = new Vector<Integer>();
 	}
 	

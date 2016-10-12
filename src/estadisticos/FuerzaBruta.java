@@ -10,22 +10,31 @@ package estadisticos;
     verifica de a uno si es la solución. Una vez el verificador devuelve true, devuelve ese elemento.
  */
 
+import java.util.Vector;
+
 public class FuerzaBruta {
 
 
-    private Vector<int> conjunto;
-    private int candidato
+    private Vector<Integer> conjunto;
 
-    FuerzaBruta(Vector<int> conj, int cand, int k){
-        conjunto = conj;
-        candidato = cand;
+    private int candidato;
 
-        if (esKEsimoMenor(k)){
-
-        }
+    public FuerzaBruta(Vector<Integer> unConjunto, int unCandidato){
+        conjunto = unConjunto;
+        candidato = unCandidato;
     }
 
-    public boolean esKEsimoMenor(int k){
+    public Integer verificar(int posicion){
+        Integer aDevolver = null;
+
+        if (esKEsimoMenor(posicion)){
+            aDevolver = conjunto.get(posicion);
+        }
+
+        return aDevolver;
+    }
+
+    private boolean esKEsimoMenor(int k){
 
         int vecesMenor = 0;
 
