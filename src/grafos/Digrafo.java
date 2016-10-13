@@ -17,10 +17,12 @@ public class Digrafo {
 
     private List<Arista> aristas;
     private List<Integer> vertices;
-    private int aristaActual;
 
     public Digrafo(int v){
-        aristaActual = 0;
+
+        aristas = new ArrayList<Arista>();
+        vertices = new ArrayList<Integer>();
+
         for (int i = 0; i < v; i++) {
             vertices.add(i);
         }
@@ -47,8 +49,16 @@ public class Digrafo {
         return incidentes;
     }
 
-    public void adyacentesA(int v){
+    public List<Integer> adyacentesA(int v){
+        List<Integer> adyacentes = new ArrayList<Integer>();
 
+        for (Integer vertice : vertices) {
+            if (vertice == v || vertice ==v){
+                adyacentes.add(vertice);
+            }
+        }
+
+        return adyacentes;
     }
 
     public void agregarArista(int origen, int destino, int peso){
@@ -56,11 +66,11 @@ public class Digrafo {
         aristas.add(aAgregar);
     }
 
-    public Iterator<Integer> iterar(){
+    public Iterator<Integer> iterador(){
         return vertices.iterator();
     }
 
-    public Iterator<Arista> iterar_aristas() {
+    public Iterator<Arista> iterador_aristas() {
         return aristas.iterator();
     }
 
