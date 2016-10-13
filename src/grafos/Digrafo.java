@@ -72,6 +72,5 @@ public class Digrafo {
 
     public Iterator<Arista> iterador_aristas() {
         return aristas.iterator();
-    }
-
+    }    
 }

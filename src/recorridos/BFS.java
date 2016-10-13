@@ -1,58 +1,63 @@
 package recorridos;
 
-import grafos.*;
+import grafos.Arista;
+import grafos.Digrafo;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BFS extends Caminos {
 
-    private double dist[];  // Inicializar a +∞.
-    private Arista edge[];
+    private ArrayList<Double> dist;  // Inicializar a +∞.
+    private ArrayList<Arista> edge;
 
     public BFS(Digrafo g, int origin, int destino) {
         super(g, origin);
 
-     /*   for ( int nodo : g.get)
-
-        n.distance = INFINITY
-
-        n.parent = NIL
+        calcularCamino(g, origin, destino);
 
 
-        create empty queue Q
+    }
 
+    private void calcularCamino(Digrafo g, int origin, int destino) {
+        dist.add(Double.valueOf(0));
 
-        root.distance = 0
+        for (int i=1; i<g.vertices(); i++){
+            dist.add(Double.POSITIVE_INFINITY);
+        }
 
-        Q.enqueue(root)
+        List<Integer> adyacentes = new ArrayList<>();
 
+        LinkedList<Integer> queue = new LinkedList<Integer>();
 
-        while Q is not empty:
+        queue.add(origin);
 
+        Integer current = queue.getFirst();
 
+        while (!queue.isEmpty() && current != destino) {
 
-        current = Q.dequeue()
+            queue.removeFirst();
 
+            adyacentes = g.adyacentesA(current);
 
+            for (Integer adyacente : adyacentes) {
+                if (!visitado(adyacente)) {
+                    dist.set(adyacente, dist.get(current) + 1);
+                    edge.add(new Arista(current,adyacente,dist.get(adyacente).intValue()));
+                    queue.addLast(adyacente);
+                }
+            }
 
-        for each node n that is adjacent to current:
-
-        if n.distance == INFINITY:
-
-        n.distance = current.distance + 1
-
-        n.parent = current
-
-        Q.enqueue(n)
-
-        // código del algoritmo, rellena "dist" y "edge".*/
+            current = queue.getFirst();
+        }
     }
 
     public double distancia(int v) {
-        return dist[v];
+        return dist.get(v);
     }
 
-
-
     protected Arista edge_to(int v) {
-        return edge[v];
+        return edge.get(v);
     }
 }
