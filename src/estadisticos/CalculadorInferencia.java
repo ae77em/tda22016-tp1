@@ -73,7 +73,7 @@ public class CalculadorInferencia {
 		
 		selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);
 		
-		Integer minimo = 32767, indiceMin = 0;
+		Integer minimo = 2147483647 , indiceMin = 0;
 
 		for (int i = 0; i < pos; i++) {
 			for (int j = 0; j < contenedorDatos.size(); j++) {
@@ -84,7 +84,7 @@ public class CalculadorInferencia {
 			}
 			selecciones.set(i,minimo);
 			contenedorDatos.removeElementAt(indiceMin);
-			minimo = 32767; indiceMin = 0;
+			minimo = 2147483647 ; indiceMin = 0;
 		}
 		
 		
@@ -94,7 +94,7 @@ public class CalculadorInferencia {
 	public boolean calcularPorKSeleccionesEnHeap(Integer pos, Integer valor){
 		System.out.println("Calculando Por K-HeapSort");
 		
-		Integer minimo = 32767, indiceMin = 0;
+		Integer minimo = 2147483647 , indiceMin = 0;
 
 		for (int i = 0; i < pos; i++) {
 			for (int j = 0; j < contenedorDatos.size(); j++) {
@@ -105,7 +105,7 @@ public class CalculadorInferencia {
 			}
 			heap.agregar(minimo);
 			contenedorDatos.removeElementAt(indiceMin);
-			minimo = 32767; indiceMin = 0;
+			minimo = 2147483647 ; indiceMin = 0;
 		}
 				
 		if(	buscarRefEnHeap(pos,valor) )
