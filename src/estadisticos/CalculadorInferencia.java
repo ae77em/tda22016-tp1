@@ -11,24 +11,7 @@ public class CalculadorInferencia {
 	public CalculadorInferencia(Vector<Integer> a) {
 		contenedorDatos = a;
 	}
-	
-	private void ordenarPorSeleccion(){
-		int i, j, minIndex, tmp;
-	      int n = contenedorDatos.size();
-	      for (i = 0; i < n - 1; i++) {
-	            minIndex = i;
-	            for (j = i + 1; j < n; j++)
-	                  if (contenedorDatos.elementAt(j) < contenedorDatos.elementAt(minIndex))
-	                        minIndex = j;
-	            if (minIndex != i) {
-	                  tmp = contenedorDatos.elementAt(i);
-	                  
-	                  contenedorDatos.set(i,contenedorDatos.elementAt(minIndex));
-	                  contenedorDatos.set(minIndex,tmp);
-	            }
-	      }
-	}
-	
+		
 	private void ordenarPorBurbujeo(){
 		int i, j, aux;
        
@@ -46,13 +29,27 @@ public class CalculadorInferencia {
 
 
 	public boolean calcularPorFuerzaBruta(Integer pos, Integer valor){
+		Integer aDevolver = null;
 
-		FuerzaBruta fuerzaBruta = new FuerzaBruta(contenedorDatos,valor);
+        if (esKEsimoMenor(pos,valor)){
+            aDevolver = contenedorDatos.get(pos);
+        }
 
-		System.out.println(contenedorDatos);
-
-		return fuerzaBruta.verificar(pos) != null;
+		return aDevolver != null;
 	}
+	
+	private boolean esKEsimoMenor(int k,int valor){
+
+        int vecesMenor = 0;
+
+        for(int nro : contenedorDatos){
+            if (valor < nro){
+                vecesMenor++;
+            }
+        }
+
+        return (contenedorDatos.size() - vecesMenor) == k; // devuelve true si es el k-menor elemento....
+    }
 	
 	private boolean verificarPos(Integer pos, Integer valor){
 		if(contenedorDatos.elementAt(pos) == valor)
