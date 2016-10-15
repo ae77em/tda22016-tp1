@@ -29,8 +29,10 @@ public class CalculadorInferencia {
 
 
 	public boolean calcularPorFuerzaBruta(Integer pos, Integer valor){
+		System.out.println("Calculando Por Fuerza Bruta");
+				
 		Integer aDevolver = null;
-
+		
         if (esKEsimoMenor(pos,valor)){
             aDevolver = contenedorDatos.get(pos);
         }
@@ -59,12 +61,15 @@ public class CalculadorInferencia {
 	}
 	
 	public boolean calcularPorOrdenarSeleccionar(Integer pos, Integer valor){
+		System.out.println("Calculando Por Ordenar y Seleccionar");
+		
 		ordenarPorBurbujeo();
-
+		
 		return verificarPos(pos-1,valor);
 	}
 
 	public boolean calcularPorKSelecciones(Integer pos, Integer valor){
+		System.out.println("Calculando Por K Selecciones");
 		
 		selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);selecciones.add(0);
 		
@@ -87,6 +92,8 @@ public class CalculadorInferencia {
 	}
 
 	public boolean calcularPorKSeleccionesEnHeap(Integer pos, Integer valor){
+		System.out.println("Calculando Por K-HeapSort");
+		
 		Integer minimo = 32767, indiceMin = 0;
 
 		for (int i = 0; i < pos; i++) {
@@ -129,6 +136,8 @@ public class CalculadorInferencia {
 	}
 
 	public boolean calcularPorHeapSelect(int pos, int valor) {
+		System.out.println("Calculando Por HeapSelect");
+
 		heapSort();
 		
 		return buscarRefEnHeap(pos, valor);
@@ -141,6 +150,8 @@ public class CalculadorInferencia {
 	}
 
 	public boolean calcularPorQuickSelect(int pos, int valor) {
+		System.out.println("Calculando Por QuickSelect");
+
 		int valorEnPos = quickSelect(0,contenedorDatos.size()-1,pos); 
 						
 		if(valorEnPos == valor)
