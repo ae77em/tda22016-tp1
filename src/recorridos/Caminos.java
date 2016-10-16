@@ -6,10 +6,12 @@ import java.util.List;
 
 public abstract class Caminos {
 
-    private int src;
+    protected static int origen;
+    protected static Digrafo grafo;
 
-    protected Caminos(Digrafo g, int origin) {
-        src = origin;
+    protected Caminos(Digrafo g, int o) {
+        origen = o;
+        grafo = g;
     }
 
     public abstract double distancia(int v);
@@ -24,4 +26,5 @@ public abstract class Caminos {
         /* ... */
         return null;
     }
+
 }
