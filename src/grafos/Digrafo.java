@@ -60,6 +60,15 @@ public class Digrafo {
         return adyacentes;
     }
 
+    public Arista aristaEntre(int origen, int destino) {
+        for (Arista arista : aristas) {
+            if (arista.origen() == origen && arista.destino() == destino) {
+                return arista;
+            }
+        }
+        return null;
+    }
+
     public void agregarArista(int origen, int destino, int peso) {
         Arista aAgregar = new Arista(origen, destino, peso);
         aristas.add(aAgregar);

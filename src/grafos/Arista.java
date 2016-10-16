@@ -25,6 +25,11 @@ public class Arista implements Comparable {
     }
 
     @Override
+    public String toString() {
+        return "\n" + String.valueOf(origen) + " ---- " + String.valueOf(peso) + " -----> " + String.valueOf(destino);
+    }
+
+    @Override
     public int compareTo(Object o) {
         Arista arista = ((Arista) o);
 
