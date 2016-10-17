@@ -5,6 +5,7 @@ import estadisticos.Heap;
 import grafos.Digrafo;
 
 import java.util.Vector;
+import recorridos.BFS;
 import recorridos.Caminos;
 import recorridos.Dijkstra;
 
@@ -50,9 +51,26 @@ public class Tda22016Tp1 {
 //        pruebaHeap();
 //        pruebaInferencia();
 
+        pruebaBSF();
         pruebaDijkstra();
         pruebaDijkstra2();
 
+    }
+
+    private static void pruebaBSF() {
+        Digrafo grafo = new Digrafo(7);
+
+        grafo.agregarArista(0, 1, 1);
+        grafo.agregarArista(0, 2, 1);
+        grafo.agregarArista(1, 3, 1);
+        grafo.agregarArista(1, 4, 1);
+        grafo.agregarArista(2, 5, 1);
+        grafo.agregarArista(2, 6, 1);
+
+        Caminos caminos = new BFS(grafo, 0, 4);
+
+        System.out.println("BFS");
+        System.out.println(caminos.camino(4));
     }
 
     private static void pruebaDijkstra() {
@@ -69,6 +87,7 @@ public class Tda22016Tp1 {
         grafo.agregarArista(3, 4, 5);
         grafo.agregarArista(4, 2, 4);
 
+        System.out.println("Dijkstra 1");
         Caminos caminos = new Dijkstra(grafo, 0, 4);
 
         System.out.println(caminos.camino(2));
@@ -86,6 +105,7 @@ public class Tda22016Tp1 {
         grafo.agregarArista(3, 5, 2);
         grafo.agregarArista(4, 5, 2);
 
+        System.out.println("Dijkstra 2");
         Caminos caminos = new Dijkstra(grafo, 0, 5);
 
         System.out.println(caminos.camino(5));

@@ -9,43 +9,46 @@ import java.util.List;
 
 public class BFS extends Caminos {
 
-    private ArrayList<Double> dist;  // Inicializar a +∞.
-    private ArrayList<Arista> edge;
+    private ArrayList<Double> dist = new ArrayList<>();  // Inicializar a +∞.
+    private ArrayList<Arista> edge = new ArrayList<>();
 
-    public BFS(Digrafo g, int origin, int destino) {
-        super(g, origin);
+    private int destino;
 
-        calcularCamino(g, origin, destino);
+    public BFS(Digrafo g, int origen, int destino) {
+        super(g, origen);
 
+        this.destino = destino;
+
+        bsf();
 
     }
 
-    private void calcularCamino(Digrafo g, int origin, int destino) {
-        dist.add(Double.valueOf(0));
+    private void bsf() {
 
-        for (int i=1; i<g.vertices(); i++){
+        for (int i = 0; i < grafo.vertices(); i++) {
             dist.add(Double.POSITIVE_INFINITY);
+            nodosPrevios.add(null);
         }
 
+        dist.set(0, 0.0);
+
         List<Integer> adyacentes = new ArrayList<>();
-
         LinkedList<Integer> queue = new LinkedList<Integer>();
-
-        queue.add(origin);
+        queue.add(origen);
 
         Integer current = queue.getFirst();
 
         while (!queue.isEmpty() && current != destino) {
 
             queue.removeFirst();
-
-            adyacentes = g.adyacentesA(current);
+            adyacentes = grafo.adyacentesA(current);
 
             for (Integer adyacente : adyacentes) {
                 if (!visitado(adyacente)) {
                     dist.set(adyacente, dist.get(current) + 1);
-                    edge.add(new Arista(current,adyacente,dist.get(adyacente).intValue()));
+                    edge.add(new Arista(current, adyacente, dist.get(adyacente).intValue()));
                     queue.addLast(adyacente);
+                    nodosPrevios.set(adyacente, current);
                 }
             }
 
@@ -53,10 +56,12 @@ public class BFS extends Caminos {
         }
     }
 
+    @Override
     public double distancia(int v) {
         return dist.get(v);
     }
 
+    @Override
     protected Arista edge_to(int v) {
         return edge.get(v);
     }

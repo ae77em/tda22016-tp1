@@ -30,7 +30,6 @@ public abstract class Caminos {
         int verticePrevio = -1;
 
         List<Arista> caminoAVertice = new ArrayList<>();
-        Arista arista;
 
         if (visitado(verticeActual)) {
             while (verticeActual != origen) {

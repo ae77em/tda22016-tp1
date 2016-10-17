@@ -23,7 +23,7 @@ public class Dijkstra extends Caminos {
         dijkstra();
     }
 
-    public void dijkstra() {
+    public final void dijkstra() {
 
         if (destino > grafo.vertices() || destino < 0) {
             throw new IllegalArgumentException("El vertice destino indicado no existe en el grafo.");
