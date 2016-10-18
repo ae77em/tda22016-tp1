@@ -69,8 +69,16 @@ public class Digrafo {
         return null;
     }
 
-    public void agregarArista(int origen, int destino, int peso) {
+    public void agregarArista(int origen, int destino, int peso) throws Exception {
         Arista aAgregar = new Arista(origen, destino, peso);
+
+        while (iterador_aristas().hasNext()){
+            Arista a = iterador_aristas().next();
+            if (aAgregar.sigueElMismoCaminoQue(a)){
+                throw new Exception("No se pueden agregar dos aristas con el mismo origen y destino.");
+            }
+        }
+
         aristas.add(aAgregar);
     }
 

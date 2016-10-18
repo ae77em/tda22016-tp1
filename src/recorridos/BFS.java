@@ -46,7 +46,7 @@ public class BFS extends Caminos {
             for (Integer adyacente : adyacentes) {
                 if (!visitado(adyacente)) {
                     dist.set(adyacente, dist.get(current) + 1);
-                    edge.add(new Arista(current, adyacente, dist.get(adyacente).intValue()));
+                    edge.add(getNewEdge(current,adyacente));
                     queue.addLast(adyacente);
                     nodosPrevios.set(adyacente, current);
                 }
@@ -64,5 +64,22 @@ public class BFS extends Caminos {
     @Override
     protected Arista edge_to(int v) {
         return edge.get(v);
+    }
+
+    public Arista getNewEdge(int origen, int destino) {
+
+        Arista nueva = null;
+
+        while(grafo.iterador_aristas().hasNext()){
+            Arista a = grafo.iterador_aristas().next();
+
+            if (a.origen() == origen && a.destino() == destino){
+                nueva = a;
+                break;
+            }
+
+        }
+
+        return nueva;
     }
 }
