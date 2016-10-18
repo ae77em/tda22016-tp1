@@ -24,6 +24,10 @@ public class Arista implements Comparable {
         return peso;
     }
 
+    public boolean sigueElMismoCaminoQue(Arista a){
+        return this.origen == a.origen && this.destino == a.destino;
+    }
+
     @Override
     public String toString() {
         return "\n" + String.valueOf(origen) + " ---- " + String.valueOf(peso) + " -----> " + String.valueOf(destino);
