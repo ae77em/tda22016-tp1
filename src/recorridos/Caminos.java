@@ -8,12 +8,28 @@ import java.util.List;
 public abstract class Caminos {
 
     protected static int origen;
+    protected static int destino;
     protected static Digrafo grafo;
     protected List<Integer> nodosPrevios = new ArrayList<>();
 
     protected Caminos(Digrafo g, int o) {
         origen = o;
         grafo = g;
+    }
+
+    protected Caminos(Digrafo g, int o, int d) {
+
+        if (o > grafo.vertices() || o < 0) {
+            throw new IllegalArgumentException("El vértice origen indicado no existe en el grafo.");
+        }
+
+        if (d > grafo.vertices() || d < 0) {
+            throw new IllegalArgumentException("El vértice destino indicado no existe en el grafo.");
+        }
+
+        origen = o;
+        grafo = g;
+        destino = d;
     }
 
     public abstract double distancia(int v);

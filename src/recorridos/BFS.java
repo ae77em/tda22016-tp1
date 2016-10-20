@@ -12,15 +12,10 @@ public class BFS extends Caminos {
     private ArrayList<Double> dist = new ArrayList<>();  // Inicializar a +∞.
     private ArrayList<Arista> edge = new ArrayList<>();
 
-    private int destino;
-
     public BFS(Digrafo g, int origen, int destino) {
-        super(g, origen);
-
-        this.destino = destino;
+        super(g, origen, destino);
 
         bsf();
-
     }
 
     private void bsf() {

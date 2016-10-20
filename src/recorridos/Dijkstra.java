@@ -9,23 +9,16 @@ import java.util.Queue;
 
 public class Dijkstra extends Caminos {
 
-    private int destino = 0;
     private List<Double> dist = new ArrayList<>();
-    Queue<Integer> verticesNoVisitados = new PriorityQueue<Integer>();
+    private Queue<Integer> verticesNoVisitados = new PriorityQueue<Integer>();
 
     public Dijkstra(Digrafo grafo, int origen, int destino) {
-        super(grafo, origen);
-
-        this.destino = destino;
+        super(grafo, origen, destino);
 
         dijkstra();
     }
 
     public final void dijkstra() {
-
-        if (destino > grafo.vertices() || destino < 0) {
-            throw new IllegalArgumentException("El vertice destino indicado no existe en el grafo.");
-        }
 
         for (int i = 0; i < grafo.vertices(); i++) {
             dist.add(Double.POSITIVE_INFINITY);
