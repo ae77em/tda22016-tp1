@@ -2,6 +2,7 @@ package recorridos;
 
 import grafos.Arista;
 import grafos.Digrafo;
+import heuristicas.Heuristica;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,37 +12,24 @@ import java.util.Queue;
 public class AAsterisco extends Caminos {
 
     private List<Double> dist = new ArrayList<>();
+    private List<Arista> edge = new ArrayList<>();
+    private List<Double> h = new ArrayList<>();
+    private List<Object> heuResponse = new ArrayList<>();
     private Queue<Integer> verticesNoVisitados = new PriorityQueue<Integer>();
-    private double h[];
 
-    public AAsterisco(Digrafo g, int origen, int destino) {
+    public AAsterisco(Digrafo g, int origen, int destino, Heuristica heuristica) {
         super(g, origen, destino);
 
-        h = new double[grafo.vertices()];
+        heuResponse = heuristica.execute(g, origen, destino);
 
-        BFS bfs = new BFS(grafo, origen, destino);
-
-        while (grafo.iterador().hasNext()){
-            int v = grafo.iterador().next();
-            double d = bfs.camino(v).size();
-            h[v] = d;
+        for (Object o : heuResponse) {
+            h.add((Double) o);
         }
+
+        aasterisco();
     }
 
-    private void aasterisco(){
-
-        List<Integer> ABIERTA = new ArrayList<>();
-        List<Integer> CERRADA = new ArrayList<>();
-
-        // ABIERTA contiene todos los vertices adyacentes al actual (inicialmente origen)
-        // CERRADA contiene el vertice actual (inicialmente origen)
-
-        // f(v) = h(v) + g(v)
-        // g(v) = peso de la arista de actual a adyacente
-        // h(v) = distancia de actual a objetivo
-
-        // Calcular distancias
-        // Hacer el mismo algoritmo que para dijkstra, pero usando elvalor de f para elegir siguiente nodo
+    private void aasterisco() {
 
         for (int i = 0; i < grafo.vertices(); i++) {
             dist.add(Double.POSITIVE_INFINITY);
@@ -51,76 +39,66 @@ public class AAsterisco extends Caminos {
 
         dist.set(origen, 0.0);
 
-        int proximoVertice;
+        int verticeConMenorDistanciaAcumulada;
 
-    /*    while (!verticesNoVisitados.isEmpty()) {
+        while (!verticesNoVisitados.isEmpty()) {
 
-            int v = verticesNoVisitados.poll();
-            proximoVertice = obtenerProximoVerticeDesde(v);
+            verticeConMenorDistanciaAcumulada = obtenerVerticeConMenorDistanciaAcumuladaConHeuristica();
 
-            if (proximoVertice != destino) {
-                verticesNoVisitados.remove(proximoVertice);
+            if (verticeConMenorDistanciaAcumulada != destino) {
+                verticesNoVisitados.remove(verticeConMenorDistanciaAcumulada);
 
-                for (Integer adyacente : grafo.adyacentesA(proximoVertice)) {
+                for (Integer adyacente : grafo.adyacentesA(verticeConMenorDistanciaAcumulada)) {
 
-                    Arista aristaAAdyacente = obtenerAristaAAdyacente(proximoVertice, adyacente);
-                    double alt = dist.get(proximoVertice) + aristaAAdyacente.peso();
+                    Arista aristaAAdyacente = obtenerAristaAAdyacente(verticeConMenorDistanciaAcumulada, adyacente);
+                    double alt = dist.get(verticeConMenorDistanciaAcumulada) + aristaAAdyacente.peso();
 
                     if (alt < dist.get(adyacente)) {
                         dist.set(adyacente, alt);
-                        nodosPrevios.set(adyacente, proximoVertice);
+                        nodosPrevios.set(adyacente, verticeConMenorDistanciaAcumulada);
                     }
                 }
             } else {
                 break;
             }
-        }*/
-
-
-
+        }
     }
 
-    private int obtenerProximoVerticeDesde(int v) {
+    private int obtenerVerticeConMenorDistanciaAcumuladaConHeuristica() {
 
+        double distanciaMinima = Double.POSITIVE_INFINITY;
+        Integer aDevolver = -1;
 
-
-        return 0;
-    }
-
-    private double f(int v){
-
-        double distancia = 0;
-        List<Arista> incidentes = grafo.incidentesA(v);
-
-        for(Arista incidente : incidentes){
-
-            if (incidente.destino() == v){
-                distancia = incidente.peso();
-                break;
+        for (Integer vertice : verticesNoVisitados) {
+            double heu = dist.get(vertice) + h.get(vertice);
+            if (distanciaMinima > heu) {
+                distanciaMinima = heu;
+                aDevolver = vertice;
             }
         }
 
-        return distancia;
+        return aDevolver;
     }
 
-    private double h(int v) {
-        return 0;  
+    private Arista obtenerAristaAAdyacente(int origen, int adyacente) {
+        List<Arista> aristas = grafo.incidentesA(adyacente);
 
-    }
-
-    private double g(int v) {
-        return 0;
-
+        for (Arista arista : aristas) {
+            if (arista.origen() == origen) {
+                return arista;
+            }
+        }
+        return null;
     }
 
     @Override
     public double distancia(int v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dist.get(v);
     }
 
     @Override
     protected Arista edge_to(int v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return edge.get(v);
     }
 
 }

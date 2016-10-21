@@ -5,8 +5,7 @@ package heuristicas;
  */
 public class CommandHeuristica {
 
-    public static void callCommand(PrintHeuristica command, Object data)
-    {
+    public static void callCommand(Heuristica command, Object... data) {
         command.execute(data);
     }
 

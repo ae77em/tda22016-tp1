@@ -19,6 +19,10 @@ public abstract class Caminos {
 
     protected Caminos(Digrafo g, int o, int d) {
 
+        origen = o;
+        grafo = g;
+        destino = d;
+
         if (o > grafo.vertices() || o < 0) {
             throw new IllegalArgumentException("El vértice origen indicado no existe en el grafo.");
         }
@@ -27,9 +31,6 @@ public abstract class Caminos {
             throw new IllegalArgumentException("El vértice destino indicado no existe en el grafo.");
         }
 
-        origen = o;
-        grafo = g;
-        destino = d;
     }
 
     public abstract double distancia(int v);
