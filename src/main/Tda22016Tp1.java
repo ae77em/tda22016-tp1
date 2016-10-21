@@ -47,7 +47,7 @@ public class Tda22016Tp1 {
         System.out.println(calculadorInferencia.calcularPorQuickSelect(2, 2));
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 //        pruebaHeap();
 //        pruebaInferencia();
 
@@ -57,7 +57,7 @@ public class Tda22016Tp1 {
 
     }
 
-    private static void pruebaBSF() {
+    private static void pruebaBSF() throws Exception {
         Digrafo grafo = new Digrafo(7);
 
         grafo.agregarArista(0, 1, 1);
@@ -73,7 +73,7 @@ public class Tda22016Tp1 {
         System.out.println(caminos.camino(4));
     }
 
-    private static void pruebaDijkstra() {
+    private static void pruebaDijkstra() throws Exception {
 
         Digrafo grafo = new Digrafo(5);
 
@@ -94,7 +94,7 @@ public class Tda22016Tp1 {
 
     }
 
-    private static void pruebaDijkstra2() {
+    private static void pruebaDijkstra2() throws Exception {
         Digrafo grafo = new Digrafo(6);
 
         grafo.agregarArista(0, 1, 2);
