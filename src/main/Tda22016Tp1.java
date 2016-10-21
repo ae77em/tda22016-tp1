@@ -167,7 +167,20 @@ public class Tda22016Tp1 {
     }
 
     private static void pruebaHBSF() {
-        System.out.println("\npruebaHBSF: 'Todavia no hago nada...'\n");
+        Digrafo grafo = new Digrafo(7);
+
+        grafo.agregarArista(0, 1, 1);
+        grafo.agregarArista(0, 2, 1);
+        grafo.agregarArista(1, 3, 1);
+        grafo.agregarArista(1, 4, 1);
+        grafo.agregarArista(0, 1, 1);
+        grafo.agregarArista(2, 5, 1);
+        grafo.agregarArista(2, 6, 1);
+
+        Caminos caminos = new BFS(grafo, 0, 4);
+
+        System.out.println("BFS con Heuristica");
+        System.out.println(caminos.camino(4));
     }
 
 }

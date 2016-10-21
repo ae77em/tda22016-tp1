@@ -20,35 +20,51 @@ public class BFS extends Caminos {
 
     private void bsf() {
 
-        for (int i = 0; i < grafo.vertices(); i++) {
-            dist.add(Double.POSITIVE_INFINITY);
-            nodosPrevios.add(null);
+        for (int i = 0; i < grafo.vertices(); i++) {    // N (nro de vertices)
+            dist.add(Double.POSITIVE_INFINITY);         // 1
+            nodosPrevios.add(null);                     // 1
         }
 
-        dist.set(0, 0.0);
+        dist.set(0, 0.0);                               // 1
 
-        List<Integer> adyacentes = new ArrayList<>();
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-        queue.add(origen);
+        List<Integer> adyacentes = new ArrayList<>();   // 1
+        LinkedList<Integer> queue = new LinkedList<Integer>(); // 1
+        queue.add(origen);                              // 1
 
-        Integer current = queue.getFirst();
+        Integer current = queue.getFirst();             // 1
 
-        while (!queue.isEmpty() && current != destino) {
+        while (!queue.isEmpty() && current != destino) { // N (nro de vertices)
+            // todos los vertices
+            queue.removeFirst();                                // 1
+            adyacentes = grafo.adyacentesA(current);                // 1
 
-            queue.removeFirst();
-            adyacentes = grafo.adyacentesA(current);
-
-            for (Integer adyacente : adyacentes) {
-                if (!visitado(adyacente)) {
-                    dist.set(adyacente, dist.get(current) + 1);
-                    edge.add(getNewEdge(current, adyacente));
-                    queue.addLast(adyacente);
-                    nodosPrevios.set(adyacente, current);
+            for (Integer adyacente : adyacentes) {                  // A / (suma de todas las A)= N
+                if (!visitado(adyacente)) {                         // 1
+                    dist.set(adyacente, dist.get(current) + 1);     // 1
+                    edge.add(obtenerNuevaArista(current, adyacente)); // 1
+                    queue.addLast(adyacente);                       // 1
+                    nodosPrevios.set(adyacente, current);           // 1
                 }
             }
 
-            current = queue.getFirst();
+            current = queue.getFirst();                             // 1
         }
+    }
+
+    public Arista obtenerNuevaArista(int origen, int destino) {
+
+        Arista nueva = null;
+
+        List<Arista> aristas = grafo.incidentesA(destino);
+
+        for (Arista a : aristas) {                        // M (nro de aristas)
+            if (a.origen() == origen && a.destino() == destino) {
+                nueva = a;                                  // 1
+                break;
+            }
+        }
+
+        return nueva;
     }
 
     @Override
@@ -61,19 +77,4 @@ public class BFS extends Caminos {
         return edge.get(v);
     }
 
-    public Arista getNewEdge(int origen, int destino) {
-
-        Arista nueva = null;
-
-        List<Arista> aristas = grafo.incidentesA(destino);
-
-        for (Arista a : aristas) {
-            if (a.origen() == origen && a.destino() == destino) {
-                nueva = a;
-                break;
-            }
-        }
-
-        return nueva;
-    }
 }

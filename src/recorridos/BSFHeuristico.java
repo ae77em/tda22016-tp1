@@ -58,7 +58,7 @@ public class BSFHeuristico extends Caminos {
             for (Integer adyacente : adyacentes) {
                 if (!visitado(adyacente)) {
                     dist.set(adyacente, dist.get(current) + 1);
-                    edge.add(getNewEdge(current, adyacente));
+                    edge.add(obtenerNuevaArista(current, adyacente));
                     queue.addLast(adyacente);
                     nodosPrevios.set(adyacente, current);
                 }
@@ -78,18 +78,17 @@ public class BSFHeuristico extends Caminos {
         return edge.get(v);
     }
 
-    public Arista getNewEdge(int origen, int destino) {
+    public Arista obtenerNuevaArista(int origen, int destino) {
 
         Arista nueva = null;
 
-        while (grafo.iterador_aristas().hasNext()) {
-            Arista a = grafo.iterador_aristas().next();
+        List<Arista> aristas = grafo.incidentesA(destino);
 
+        for (Arista a : aristas) {                        // M (nro de aristas)
             if (a.origen() == origen && a.destino() == destino) {
-                nueva = a;
+                nueva = a;                                  // 1
                 break;
             }
-
         }
 
         return nueva;
