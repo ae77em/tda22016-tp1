@@ -6,142 +6,175 @@ public class CalculadorInferencia {
 
     Vector<Integer> contenedorDatos;
     Vector<Integer> selecciones = new Vector<Integer>();
-    Heap heap = new Heap();
+    HeapMinimo heapMinimo = new HeapMinimo();
+    HeapMaximo heapMaximo = new HeapMaximo();
 
     public CalculadorInferencia(Vector<Integer> a) {
         contenedorDatos = a;
     }
 
-    private void ordenarPorBurbujeo() {
-        int i, j, aux;
-
-        for (i = 0; i < contenedorDatos.size() - 1; i++) {
-            for (j = 0; j < contenedorDatos.size() - i - 1; j++) {
-                if (contenedorDatos.elementAt(j + 1) < contenedorDatos.elementAt(j)) {
-                    aux = contenedorDatos.elementAt(j + 1);
-
-                    contenedorDatos.set(j + 1, contenedorDatos.elementAt(j));
-
-                    contenedorDatos.set(j, aux);
-                }
-            }
-        }
-    }
-
-    public boolean calcularPorFuerzaBruta(Integer pos, Integer valor) {
+	
+    public boolean calcularPorFuerzaBruta(int k, int valor) {
         System.out.println("Calculando Por Fuerza Bruta");
 
-        Integer aDevolver = null;
+    	int cantidadDatos = contenedorDatos.size();
+		
+		boolean seEncontroElemento = false;
+		
+		int indice = 0;
+		
+		while (!seEncontroElemento) {
 
-        if (esKEsimoMenor(pos, valor)) {
-            aDevolver = contenedorDatos.get(pos);
-        }
+			int elementoActual = contenedorDatos.elementAt(indice);
 
-        return aDevolver != null;
+			int menores = 0;
+
+			for (int i = 0; i < cantidadDatos; i++) {
+				if (i != indice) {//para que no analice el elemento actual
+					int elementoAComparar = contenedorDatos.elementAt(i);
+					//no se contemplan caso de valores repetidos
+					if (elementoAComparar < elementoActual) {
+						menores++;
+					}
+				}
+			}
+			//sumo uno a menores por que en el bucle evito hacer una comparacion consigo mismo
+			seEncontroElemento = ((menores + 1) == k);// si se encontro el k-iesimo
+			
+			indice++;
+		}
+
+		//comparo el si k-iesimo es el elemento consultado, resto al indice la ultima iteracion del bucle
+		return (contenedorDatos.elementAt(indice-1) == valor);
     }
+    
+    public boolean calcularPorOrdenarSeleccionar(Integer pos, Integer valor) {
+        System.out.println("Calculando Por Ordenar y Seleccionar");
 
-    private boolean esKEsimoMenor(int k, int valor) {
+		mergeSort(0, contenedorDatos.size()-1);
 
-        int vecesMenor = 0;
-
-        for (int nro : contenedorDatos) {
-            if (valor < nro) {
-                vecesMenor++;
-            }
-        }
-
-        return (contenedorDatos.size() - vecesMenor) == k; // devuelve true si es el k-menor elemento....
-    }
-
-    private boolean verificarPos(Integer pos, Integer valor) {
-        if (contenedorDatos.elementAt(pos) == valor) {
+		if (contenedorDatos.elementAt(pos-1) == valor) {
             return true;
         }
 
         return false;
     }
 
-    public boolean calcularPorOrdenarSeleccionar(Integer pos, Integer valor) {
-        System.out.println("Calculando Por Ordenar y Seleccionar");
+    private void mergeSort(int ini, int fin) {
+		int medio = 0;
+		
+		if (fin - ini < 1)
+			return;
 
-        ordenarPorBurbujeo();
+		medio = (ini + fin) / 2;
+		
+		mergeSort(ini, medio);
+		mergeSort(medio + 1, fin);
 
-        return verificarPos(pos - 1, valor);
-    }
+		merge(ini, medio, fin);
+	}
+
+	private void merge( int ini, int medio, int fin) {
+		int i = 0;
+		
+		int iniIndex = ini;
+		
+		int indiceMedio = medio;
+		
+		int finIndex = fin;
+		
+		int indiceIzq = ini;
+		
+		int indiceDer = indiceMedio + 1;
+		
+		int indiceAux = 0;
+		
+		Vector<Integer> arrayOrdenado = new Vector<Integer>();
+
+		arrayOrdenado.setSize(finIndex - iniIndex + 1);
+		
+		while (indiceIzq <= indiceMedio && indiceDer <= finIndex){
+			if (contenedorDatos.elementAt(indiceIzq) < contenedorDatos.elementAt(indiceDer)){
+				arrayOrdenado.set(indiceAux,contenedorDatos.elementAt(indiceIzq));
+				
+				indiceIzq++;
+			}
+			else{
+				arrayOrdenado.set(indiceAux,contenedorDatos.elementAt(indiceDer));
+				
+				indiceDer++;
+			}
+			indiceAux++;
+		}
+
+		while (indiceIzq <= indiceMedio){
+			arrayOrdenado.set(indiceAux,contenedorDatos.elementAt(indiceIzq));
+			
+			indiceAux++;
+			
+			indiceIzq++;
+		}
+
+		while (indiceDer <= finIndex){
+			arrayOrdenado.set(indiceAux,contenedorDatos.elementAt(indiceDer));
+			
+			indiceAux++;
+			
+			indiceDer++;
+		}
+		indiceAux = 0;
+		
+		for (i = iniIndex; i <= finIndex; i++){
+			contenedorDatos.set(i,arrayOrdenado.elementAt(indiceAux));
+			
+			indiceAux++;
+		}		
+	}
 
     public boolean calcularPorKSelecciones(Integer pos, Integer valor) {
         System.out.println("Calculando Por K Selecciones");
 
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-        selecciones.add(0);
-
-        Integer minimo = 2147483647, indiceMin = 0;
+        selecciones.setSize(pos);
+        
+        Integer minimo = Integer.MAX_VALUE, indiceMin = 0;
 
         for (int i = 0; i < pos; i++) {
             for (int j = 0; j < contenedorDatos.size(); j++) {
                 if (contenedorDatos.elementAt(j) < minimo) {
                     minimo = contenedorDatos.elementAt(j);
+            
                     indiceMin = j;
                 }
             }
             selecciones.set(i, minimo);
+            
             contenedorDatos.removeElementAt(indiceMin);
-            minimo = 2147483647;
+            
+            minimo = Integer.MAX_VALUE;
+            
             indiceMin = 0;
         }
 
         return verificarPosPorSeleccion(pos - 1, valor);
     }
-
-    public boolean calcularPorKSeleccionesEnHeap(Integer pos, Integer valor) {
+  
+    public boolean calcularPorKHeapSort(int pos, int valor) {
         System.out.println("Calculando Por K-HeapSort");
 
-        Integer minimo = 2147483647, indiceMin = 0;
-
-        for (int i = 0; i < pos; i++) {
-            for (int j = 0; j < contenedorDatos.size(); j++) {
-                if (contenedorDatos.elementAt(j) < minimo) {
-                    minimo = contenedorDatos.elementAt(j);
-                    indiceMin = j;
-                }
-            }
-            heap.agregar(minimo);
-            contenedorDatos.removeElementAt(indiceMin);
-            minimo = 2147483647;
-            indiceMin = 0;
-        }
-
-        if (buscarRefEnHeap(pos, valor)) {
-            return true;
-        }
-
-        return false;
+        cargarDatosAlheapMinimo();
+        
+        return buscarEnHeapMinimo(pos,valor);
     }
 
-    private boolean buscarRefEnHeap(Integer pos, Integer valor) {
+    private boolean buscarEnHeapMinimo(Integer pos, Integer valor) {
         --pos;
 
         while (pos > 0) {
-            heap.eliminarMin();
+            heapMinimo.eliminarMin();
             --pos;
         }
 
-        if (heap.obtenerMin() == valor) {
+        if (heapMinimo.obtenerMin() == valor) {
             return true;
         }
 
@@ -156,17 +189,29 @@ public class CalculadorInferencia {
         return false;
     }
 
-    public boolean calcularPorHeapSelect(int pos, int valor) {
+    public boolean calcularPorHeapSelect(int k, int valor) {
         System.out.println("Calculando Por HeapSelect");
 
-        heapSort();
-
-        return buscarRefEnHeap(pos, valor);
+        //cargo el heap con los primeros k valores del contfinor
+        for (int i = 0; i < k; i++){
+        	heapMaximo.agregar(contenedorDatos.elementAt(i));
+        }
+        
+        //ahora voy intercambiando si es necesario, al ser un heap de maximo, siempre contfinra
+        //los minimos valores del contenedor, y como maximo al K valor del contenedor
+        for (int i = k; i < contenedorDatos.size(); i++){
+        	if(heapMaximo.obtenerMax() > contenedorDatos.elementAt(i)){
+        		heapMaximo.eliminarMax();
+        		
+        		heapMaximo.agregar(contenedorDatos.elementAt(i));
+        	}
+        }
+        return heapMaximo.obtenerMax() == valor;
     }
 
-    private void heapSort() {
+    private void cargarDatosAlheapMinimo() {
         for (int i = 0; i < contenedorDatos.size(); i++) {
-            heap.agregar(contenedorDatos.elementAt(i));
+        	heapMinimo.agregar(contenedorDatos.elementAt(i));
         }
     }
 

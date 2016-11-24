@@ -2,11 +2,11 @@ package estadisticos;
 
 import java.util.Vector;
 
-public class Heap {
+public class HeapMinimo {
 
     Vector<Integer> heap;
 
-    public Heap() {
+    public HeapMinimo() {
         heap = new Vector<Integer>();
     }
 

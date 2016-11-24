@@ -4,6 +4,7 @@ class Main {
 
     //path tipoMetodo k valor
 
+	//9,4,3,7,8,2,0,
     public static void main(String[] args) {
 
         int metodoElegido = Integer.parseInt(args[1]);
@@ -27,7 +28,7 @@ class Main {
                 ok = calculadorInferencia.calcularPorKSelecciones(k, valor);
                 break;
             case 4:
-                ok = calculadorInferencia.calcularPorKSeleccionesEnHeap(k, valor);
+                ok = calculadorInferencia.calcularPorKHeapSort(k, valor);
                 break;
             case 5:
                 ok = calculadorInferencia.calcularPorHeapSelect(k, valor);
