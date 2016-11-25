@@ -11,26 +11,28 @@ import java.util.PriorityQueue;
 public class BFSHeuristico extends Caminos {
     private Arista aristas[];
     private double dist[];
-    double[] distAproxPasandoV;
+    double[] distAproximadaPorHeuristica;
  
     public BFSHeuristico(Grafo grafo, int origen, int destino,
                          IHeuristica heuristica, boolean incluirPesos)
             throws CaminoNoEncontradoException {
+        
         super(grafo, origen, destino);
+        
         LinkedList<Integer> cerrado = new LinkedList<>();
         PriorityQueue<Integer> abierto = new PriorityQueue<>(1, new ComparadorNodos());
         abierto.add(origen);
         
         dist = new double[grafo.v()];
-        distAproxPasandoV = new double[grafo.v()];
+        distAproximadaPorHeuristica = new double[grafo.v()];
         aristas = new Arista[grafo.v()];
 
         for (int v = 0; v < grafo.v(); v++) {
             dist[v] = Double.POSITIVE_INFINITY;
-            distAproxPasandoV[v] = Double.POSITIVE_INFINITY;
+            distAproximadaPorHeuristica[v] = Double.POSITIVE_INFINITY;
         }
         dist[origen] = 0;
-        distAproxPasandoV[origen] = heuristica.distancia(grafo, origen, destino);
+        distAproximadaPorHeuristica[origen] = heuristica.distancia(grafo, origen, destino);
 
         while (! abierto.isEmpty()) {
 
@@ -59,12 +61,12 @@ public class BFSHeuristico extends Caminos {
 
                 aristas[verticeVecino] = arista;
                 dist[verticeVecino] = distAprox;
-                distAproxPasandoV[verticeVecino] = dist[verticeVecino] + 
+                distAproximadaPorHeuristica[verticeVecino] = dist[verticeVecino] +
                         heuristica.distancia(grafo, verticeVecino, destino);
                 
             }
         }
-        throw new CaminoNoEncontradoException();
+        throw new CaminoNoEncontradoException("No se encontró un camino entre los vértices indicados.");
     }
     
     @Override
@@ -82,7 +84,7 @@ public class BFSHeuristico extends Caminos {
         public int compare(Object o1, Object o2) {
             Integer nodo1 = (Integer) o1;
             Integer nodo2 = (Integer) o2;
-            return Double.compare(distAproxPasandoV[nodo1], distAproxPasandoV[nodo2]);
+            return Double.compare(distAproximadaPorHeuristica[nodo1], distAproximadaPorHeuristica[nodo2]);
         }
     }
 
