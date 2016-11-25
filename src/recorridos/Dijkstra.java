@@ -1,92 +1,61 @@
 package recorridos;
 
 import grafos.Arista;
-import grafos.Digrafo;
-import java.util.ArrayList;
-import java.util.List;
+import grafos.Grafo;
+
 import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class Dijkstra extends Caminos {
 
-    private List<Double> dist = new ArrayList<>();
-    private Queue<Integer> verticesNoVisitados = new PriorityQueue<Integer>();
+	private Arista edge[];
+	private double dist[];
+	private PriorityQueue<Integer> pq;
 
-    public Dijkstra(Digrafo grafo, int origen, int destino) {
-        super(grafo, origen, destino);
+	public Dijkstra(Grafo g, int src, int dst) {
 
-        dijkstra();
-    }
+		super(g, src, dst);
+		dist = new double[g.v()];
+		edge = new Arista[g.v()];
 
-    public final void dijkstra() {
+		for (int v = 0; v < g.v(); v++) {
+			dist[v] = Double.POSITIVE_INFINITY;
+		}
 
-        for (int i = 0; i < grafo.vertices(); i++) {
-            dist.add(Double.POSITIVE_INFINITY);
-            nodosPrevios.add(null);
-            verticesNoVisitados.add(i);
-        }
+		dist[src] = 0;
 
-        dist.set(origen, 0.0);
+		pq = new PriorityQueue<>(g.v());
+		pq.add(src);
 
-        int verticeConMenorDistanciaAcumulada;
+		while (!pq.isEmpty()) {
+			int v = pq.poll();
+			for (Arista e : g.aristasAdjuntasA(v)) {
+				actualizarDistancias(e, dst);
+			}
 
-        while (!verticesNoVisitados.isEmpty()) {
+		}
 
-            verticeConMenorDistanciaAcumulada = obtenerVerticeConMenorDistanciaAcumulada();
+	}
 
-            if (verticeConMenorDistanciaAcumulada != destino) {
-                verticesNoVisitados.remove(verticeConMenorDistanciaAcumulada);
+	private void actualizarDistancias(Arista e, int dst) {
+		int v = e.src(), w = e.dst();
+		if ((dist[w] > dist[v] + e.weight())) {
+			dist[w] = dist[v] + e.weight();
+			edge[w] = e;
+			if (! pq.contains(w)) {
+				pq.add(w);
+			}
+		}
+	}
 
-                for (Integer adyacente : grafo.adyacentesA(verticeConMenorDistanciaAcumulada)) {
+	@Override
+	public double distancia(int v) {
+		return dist[v];
 
-                    Arista aristaAAdyacente = obtenerAristaAAdyacente(verticeConMenorDistanciaAcumulada, adyacente);
-                    double alt = dist.get(verticeConMenorDistanciaAcumulada) + aristaAAdyacente.peso();
+	}
 
-                    if (alt < dist.get(adyacente)) {
-                        dist.set(adyacente, alt);
-                        nodosPrevios.set(adyacente, verticeConMenorDistanciaAcumulada);
-                    }
-                }
-            } else {
-                break;
-            }
-        }
-    }
+	@Override
+	protected Arista edge_to(int v) {
+		return edge[v];
 
-    private int obtenerVerticeConMenorDistanciaAcumulada() {
-
-        double distanciaMinima = Double.POSITIVE_INFINITY;
-        Integer aDevolver = -1;
-
-        for (Integer vertice : verticesNoVisitados) {
-            if (distanciaMinima > dist.get(vertice)) {
-                distanciaMinima = dist.get(vertice);
-                aDevolver = vertice;
-            }
-        }
-
-        return aDevolver;
-    }
-
-    private Arista obtenerAristaAAdyacente(int origen, int adyacente) {
-        List<Arista> aristas = grafo.incidentesA(adyacente);
-
-        for (Arista arista : aristas) {
-            if (arista.origen() == origen) {
-                return arista;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public double distancia(int v) {
-        return dist.get(v);
-    }
-
-    @Override
-    protected Arista edge_to(int v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+	}
 }

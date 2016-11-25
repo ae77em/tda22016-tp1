@@ -1,50 +1,74 @@
-package main;
+import java.util.Stack;
 
-import estadisticos.CalculadorInferencia;
-import estadisticos.Heap;
-import grafos.Digrafo;
-import heuristicas.Heuristica;
+import grafos.Arista;
+import grafos.Dijkstra;
+import grafos.Grafo;
+import junit.framework.TestCase;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 
-import java.util.Vector;
-import recorridos.AAsterisco;
-import recorridos.BFS;
-import recorridos.Caminos;
-import recorridos.Dijkstra;
-
-public class Tda22016Tp1 {
-
-    public static void main(String[] args) throws Exception {
-
-        pruebaBSF();
-        pruebaDijkstra();
-        pruebaDijkstra2();
-        pruebaDijkstra3();
-
-        pruebaHBSF();
-        pruebaAAsterisco();
-
+public class DijkstraTest extends TestCase {
+    Grafo grafoCuadrado;
+    Dijkstra buscadorDijkstra;
+    int origen;
+    int destino;
+    
+    public DijkstraTest(String testName) {
+        super(testName);
+    }
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        origen = 0;
+        destino = 8;
+        grafoCuadrado = new Grafo(9);
+        grafoCuadrado.agregarVertice(0, 1, 10);
+        grafoCuadrado.agregarVertice(1, 2, 10);
+        grafoCuadrado.agregarVertice(3, 4, 10);
+        grafoCuadrado.agregarVertice(4, 5, 10);
+        grafoCuadrado.agregarVertice(6, 7, 1);
+        grafoCuadrado.agregarVertice(7, 8, 1);
+        grafoCuadrado.agregarVertice(0, 3, 1);
+        grafoCuadrado.agregarVertice(3, 6, 1);
+        grafoCuadrado.agregarVertice(1, 4, 10);
+        grafoCuadrado.agregarVertice(4, 7, 10);
+        grafoCuadrado.agregarVertice(2, 5, 10);
+        grafoCuadrado.agregarVertice(5, 8, 10);
+        
+        buscadorDijkstra = new Dijkstra(grafoCuadrado, origen, destino);
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
 
-    private static void pruebaBSF() throws Exception {
-        Digrafo grafo = new Digrafo(7);
+    public void testDistancia() {
+        assertEquals(4.0, buscadorDijkstra.distancia(destino));
+        assertEquals(3.0, buscadorDijkstra.distancia(7));
+        assertEquals(20.0, buscadorDijkstra.distancia(2));
+        assertEquals(0.0, buscadorDijkstra.distancia(origen));
+    }
 
-        grafo.agregarArista(0, 1, 1);
-        grafo.agregarArista(0, 2, 1);
-        grafo.agregarArista(1, 3, 1);
-        grafo.agregarArista(1, 4, 1);
-        grafo.agregarArista(0, 1, 1);
-        grafo.agregarArista(2, 5, 1);
-        grafo.agregarArista(2, 6, 1);
-
-        Caminos caminos = new BFS(grafo, 0, 4);
-
-        System.out.println("BFS");
-        System.out.println(caminos.camino(4));
+    public void testEdge_to() {
+        Stack<Arista> camino = (Stack<Arista>) buscadorDijkstra.camino();
+        assertNotNull(camino);
+        int verticeAnterior = origen, i = 1;
+        int[] caminoEsperado = {0, 3, 6, 7, 8};
+        
+        while (! camino.empty()) {
+            Arista aristaActual = camino.pop();
+            assertEquals(verticeAnterior, aristaActual.src());
+            assertEquals(caminoEsperado[i], aristaActual.dst());
+            verticeAnterior = aristaActual.dst();
+            i++;
+        }       
     }
 
     private static void pruebaDijkstra() throws Exception {
 
-        Digrafo grafo = new Digrafo(5);
+        Grafo grafo = new Grafo(5);
 
         grafo.agregarArista(0, 1, 7);
         grafo.agregarArista(0, 3, 2);
@@ -64,7 +88,7 @@ public class Tda22016Tp1 {
     }
 
     private static void pruebaDijkstra2() throws Exception {
-        Digrafo grafo = new Digrafo(6);
+        Grafo grafo = new Grafo(6);
 
         /* tomado de https://www.youtube.com/watch?v=VENf0GXRd6E */
         grafo.agregarArista(0, 1, 2);
@@ -82,7 +106,7 @@ public class Tda22016Tp1 {
     }
 
     private static void pruebaDijkstra3() throws Exception {
-        Digrafo grafo = new Digrafo(8);
+        Grafo grafo = new Grafo(8);
 
         /* tomado de https://grafos-caminosminimos.wikispaces.com/C.M.+-+Algoritmo+de+Dijkstra */
         /* ida */
@@ -142,45 +166,5 @@ public class Tda22016Tp1 {
 
         System.out.println(caminos.camino(7));
     }
-
-    private static void pruebaAAsterisco() throws Exception {
-        Digrafo grafo = new Digrafo(6);
-
-        /* tomado de https://www.youtube.com/watch?v=VENf0GXRd6E */
-        grafo.agregarArista(0, 1, 2);
-        grafo.agregarArista(0, 2, 1);
-        /* agrego arista que va directamente desde el origen al destino,
-         pero que pesa mas que otra adyacente... */
-        grafo.agregarArista(0, 5, 2);
-        //----------
-        grafo.agregarArista(1, 3, 1);
-        grafo.agregarArista(2, 3, 3);
-        grafo.agregarArista(2, 4, 4);
-        grafo.agregarArista(3, 5, 2);
-        grafo.agregarArista(4, 5, 2);
-
-        System.out.println("A*");
-
-        Caminos caminos = new AAsterisco(grafo, 0, 5, new Heuristica());
-
-        System.out.println(caminos.camino(5));
-    }
-
-    private static void pruebaHBSF() {
-        Digrafo grafo = new Digrafo(7);
-
-        grafo.agregarArista(0, 1, 1);
-        grafo.agregarArista(0, 2, 1);
-        grafo.agregarArista(1, 3, 1);
-        grafo.agregarArista(1, 4, 1);
-        grafo.agregarArista(0, 1, 1);
-        grafo.agregarArista(2, 5, 1);
-        grafo.agregarArista(2, 6, 1);
-
-        Caminos caminos = new BFS(grafo, 0, 4);
-
-        System.out.println("BFS con Heuristica");
-        System.out.println(caminos.camino(4));
-    }
-
+    
 }

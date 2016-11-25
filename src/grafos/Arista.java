@@ -1,53 +1,30 @@
 package grafos;
 
-public class Arista implements Comparable {
+public class Arista{
 
-    private int origen;
-    private int destino;
-    private double peso;
+    private int src;
+    private int dst;
+	private int weight;
+	
+	public Arista(int scr, int dst, int peso) {
+		this.src = scr;
+		this.dst = dst;
+		this.weight = peso;
+	}
+	
+	public int src() {
+		return src;
+	}
 
-    public Arista(int o, int d, int p) {
-        origen = o;
-        destino = d;
-        peso = p;
-    }
+	public int dst() {
+		return dst;
+	}
 
-    public int origen() {
-        return origen;
-    }
-
-    public int destino() {
-        return destino;
-    }
-
-    public double peso() {
-        return peso;
-    }
-
-    public boolean sigueElMismoCaminoQue(Arista a){
-        return this.origen == a.origen && this.destino == a.destino;
-    }
-
-    @Override
-    public String toString() {
-        return "\n" + String.valueOf(origen) + " ---- " + String.valueOf(peso) + " -----> " + String.valueOf(destino);
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        Arista arista = ((Arista) o);
-
-        if (arista == null) {
-            throw new UnsupportedOperationException("The parameter is not an Arista.");
-        }
-
-        if (this.peso > arista.peso) {
-            return 1;
-        } else if (this.peso < arista.peso) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
-
+	public int weight() {
+		return weight;
+	}
+	  
+	public String toString(){
+		return "" + src + "--- " + weight + " --> "+ dst;
+	}
 }

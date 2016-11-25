@@ -1,11 +1,7 @@
 package heuristicas;
 
-import java.util.List;
+import grafos.Grafo;
 
-/**
- * Created by ariel on 18/10/16.
- */
 public interface IHeuristica {
-
-    List<Object> execute(Object... data);
+    public int distancia(Grafo grafo, int verticeOrigen, int verticeDestino);
 }
