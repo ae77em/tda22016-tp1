@@ -7,7 +7,7 @@ import heuristicas.IHeuristica;
 public class AAsterisco extends BFSHeuristico{
  
     public AAsterisco(Grafo grafo, int verticeOrigen, int verticeDestino,
-                      IHeuristica heuristica) throws CaminoNoEncontradoException {
+                      IHeuristica heuristica) throws NoSeEncontroCaminoException {
         super(grafo, verticeOrigen, verticeDestino, heuristica, true);
     }
 

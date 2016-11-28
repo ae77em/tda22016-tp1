@@ -15,7 +15,7 @@ public class BFSHeuristico extends Caminos {
  
     public BFSHeuristico(Grafo grafo, int origen, int destino,
                          IHeuristica heuristica, boolean incluirPesos)
-            throws CaminoNoEncontradoException {
+            throws NoSeEncontroCaminoException {
         
         super(grafo, origen, destino);
         
@@ -66,7 +66,7 @@ public class BFSHeuristico extends Caminos {
                 
             }
         }
-        throw new CaminoNoEncontradoException("No se encontró un camino entre los vértices indicados.");
+        throw new NoSeEncontroCaminoException("No se encontró un camino entre los vértices indicados.");
     }
     
     @Override
